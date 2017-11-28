@@ -14,7 +14,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::limit(4)->get();
         return view('pages.index', compact('products'));
     }
 
@@ -27,4 +27,21 @@ class PageController extends Controller
     {
         return view('pages.contacts');
     }
+
+    /**
+     * Карточка товара
+     *
+     * @param Product $product
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showProduct(Product $product)
+    {
+        return view('pages.showProduct', compact('product'));
+    }
+
+ /*   public function showProductAnalog($id)
+    {
+        $product = Product::find($id);
+        return view('pages.showProduct', compact('product'));
+    }*/
 }

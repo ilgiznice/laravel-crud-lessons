@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Export;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,5 +16,15 @@ class AdminController extends Controller
     public function index()
     {
         return view('admin.dashboard');
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function exportToCsv()
+    {
+        $export = new Export();
+        $downloadLink = $export->run();
+        return redirect($downloadLink);
     }
 }

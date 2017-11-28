@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewOrder;
 use App\Order;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,7 @@ class OrderController extends Controller
     {
         $order = new Order($request->all());
         $order->save();
+        \Mail::to('ilgiz.personal@gmail.com')->send(new NewOrder());
         return redirect()->back();
     }
 

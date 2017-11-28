@@ -12,6 +12,12 @@ class Product extends Model
 
     public function getImageAttribute()
     {
-        return asset('storage/' . $this->image_url);
+        $imagePath = $this->image_url ? 'storage/' . $this->image_url : 'images/pi2.jpg';
+        return asset( $imagePath);
+    }
+
+    public function getFinalPriceAttribute()
+    {
+        return $this->price . ' РУБ';
     }
 }
