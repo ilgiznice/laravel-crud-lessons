@@ -38,4 +38,9 @@ class Order extends Model
     {
         return $this->statusNames[$this->status_id] ?? 'Н/Д';
     }
+
+    public function product()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+    }
 }

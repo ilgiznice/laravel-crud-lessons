@@ -11,6 +11,8 @@
                     <th>Имя</th>
                     <th>Телефон</th>
                     <th>Адрес</th>
+                    <th>Название товара</th>
+                    <th>Сумма заказа</th>
                     <th>Статус</th>
                     <th>Действие</th>
                 </tr>
@@ -20,6 +22,8 @@
                         <td>{{ $order->name }}</td>
                         <td>{{ $order->phone }}</td>
                         <td>{{ $order->address }}</td>
+                        <td>{{ $order->product->title }}</td>
+                        <td>{{ $order->product->price }}</td>
                         <td>{{ $order->status_title }}</td>
                         <td><a href="{{ route('order.edit', $order->id) }}">Редактировать</a></td>
                     </tr>

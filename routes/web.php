@@ -22,6 +22,9 @@ Route::group(['prefix' => '/admin'], function() {
     Route::resource('product', 'ProductController');
     Route::resource('order', 'OrderController');
     Route::get('/product/export/csv', 'Admin\AdminController@exportToCsv')->name('product.export.csv');
+
+    Route::get('/product/import/csv/form', 'Admin\AdminController@importForm')->name('product.import.csv.form');
+    Route::post('/product/import/csv', 'Admin\AdminController@importFromCsv')->name('product.import.csv');
 });
 
 

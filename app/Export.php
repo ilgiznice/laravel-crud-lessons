@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Storage;
 
-class Export extends Model
+class Export
 {
     const DELIMITER = ';';
     const FILE_PATH = 'export/';
