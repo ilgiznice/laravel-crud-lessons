@@ -13,9 +13,17 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $orders = Order::all();
+        //  Если AJAX, то возвращаем массив заказов
+        if ($request->ajax()) {
+            foreach ($orders as $order) {
+                $order->status = $order->getStatusTitleAttribute();
+                $order->productName = $order->product->title;
+            }
+            return $orders;
+        }
         return view('admin.order.index', compact('orders'));
     }
 
@@ -85,6 +93,15 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+    }
+
+    public function proceed(Order $order)
+    {
+        $order->status_id = Order::STATUS_IN_WORK;
+        $order->save();
+        $order->status = $order->getStatusTitleAttribute();
+        $order->productName = $order->product->title;
+        return $order;
     }
 }

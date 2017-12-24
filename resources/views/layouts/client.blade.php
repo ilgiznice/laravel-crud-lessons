@@ -360,6 +360,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="/js/bootstrap.min.js"></script>
 <!--light-box-files -->
 <script src="/js/jquery.chocolat.js"></script>
+<script>
+    window.Laravel = <?= json_encode([
+        'csrf' => csrf_token(),
+    ]) ?>
+</script>
+<script src="/js/app.js"></script>
 <link rel="stylesheet" href="/css/chocolat.css" type="text/css" media="screen" charset="utf-8">
 <!--light-box-files -->
 <script type="text/javascript" charset="utf-8">

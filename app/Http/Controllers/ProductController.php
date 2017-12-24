@@ -12,9 +12,16 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::all();
+        foreach ($products as $product) {
+            $product->image = $product->getImageAttribute();
+            $product->order = [];
+        }
+        if ($request->ajax()) {
+            return $products;
+        }
         return view('admin.product.index', compact('products'));
     }
 

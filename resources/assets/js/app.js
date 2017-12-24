@@ -1,22 +1,56 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-require('./bootstrap');
+// require('./bootstrap');
 
 window.Vue = require('vue');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+require('vue-resource');
 
-Vue.component('example', require('./components/Example.vue'));
+new Vue({
+  el: '#app',
+  data: {
+        products: [],
+  },
+  created() {
+    this.$http.get('/admin/product')
+      .then(function (response) {
+        console.log(response);
+        this.products = response.body;
+      });
+  },
+  methods: {
+    createOrder(product) {
+      this.$http
+        .post('/admin/order', {
+          ...product.order,
+          product_id: product.id
+        }, {
+          headers: { 'X-CSRF-TOKEN': window.Laravel.csrf }
+        })
+        .then(function (response) {
+          console.log(response);
+        }, function (err) {
+          console.log(err);
+        });
 
-const app = new Vue({
-    el: '#app'
+      //  'a' + 'b' => 'ab'
+      //  'a' . 'b' => 'ab'
+      //  array_concat([1, 2], [3, 4]) => [1, 2, 3, 4]
+      //  [1, 2].concat([3, 4]) => [1, 2, 3, 4]
+      //  [...[1, 2], ...[3, 4]] => [1, 2, 3, 4] ES6
+      //  { id: product.id, name: product.order.name }
+      //  Object.assign({}, product.order, { id: product.id })
+      //  => { id: product.id, name: product.order.name, ... }
+      //  { ...product.order, id: product.id }
+      //  => { id: product.id, name: product.order.name, ... }
+    }
+  }
 });
+
+Vue.component('orders', require('./components/Orders.vue'));
+
+// <orders></orders>
+
+new Vue({
+  el: '#orders',
+});
+
+

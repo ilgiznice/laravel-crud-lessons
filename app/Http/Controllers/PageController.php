@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,16 @@ class PageController extends Controller
     public function showProduct(Product $product)
     {
         return view('pages.showProduct', compact('product'));
+    }
+
+    /**
+     * Страница заказов
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showOrders()
+    {
+        return view('pages.showOrders');
     }
 
  /*   public function showProductAnalog($id)
