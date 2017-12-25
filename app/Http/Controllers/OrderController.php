@@ -104,4 +104,9 @@ class OrderController extends Controller
         $order->productName = $order->product->title;
         return $order;
     }
+
+    public function getStatuses(Order $order)
+    {
+        return $order->getStatuses();
+    }
 }

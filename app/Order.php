@@ -43,4 +43,16 @@ class Order extends Model
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
     }
+
+    public function getStatuses()
+    {
+        $statuses = [];
+        foreach ($this->statusNames as $id => $name) {
+            $statuses[] = [
+                'id' => $id,
+                'name' => $name,
+            ];
+        }
+        return $statuses;
+    }
 }

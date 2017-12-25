@@ -13161,17 +13161,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      orders: []
+      orders: [],
+      statuses: [],
+      status: ''
     };
   },
+
+  computed: {
+    ordersFiltered: function ordersFiltered() {
+      var _this = this;
+
+      return this.orders.filter(function (order) {
+        if (_this.status === '') return true;
+        return _this.status === order.status_id;
+        //            if (this.status === '') {
+        //              return true;
+        //            } else {
+        //              return this.status === order.status_id;
+        //            }
+      });
+    }
+  },
   created: function created() {
+    //  Заказы
     this.$http.get('/admin/order').then(function (response) {
       console.log(response);
       this.orders = response.body;
+    });
+    //  Статусы заказов
+    this.$http.get('/admin/order/statuses').then(function (response) {
+      console.log(response);
+      this.statuses = response.body;
     });
   },
 
@@ -13190,6 +13225,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(response);
         this.orders = this.orders.map(function (_order) {
           if (_order.id === order.id) {
+            // Заменяем исходный заказ на тот,
+            // который пришёл с бэка
             _order = response.body;
           }
           return _order;
@@ -13207,64 +13244,105 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "table",
-    { staticClass: "table" },
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._l(_vm.orders, function(order) {
-        return _c("tbody", [
-          _c("tr", [
-            _c("td", [_vm._v(_vm._s(order.name))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(order.phone))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(order.email))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(order.address))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(order.productName))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(order.status))]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "button",
-                {
-                  on: {
-                    click: function($event) {
-                      _vm.deleteOrder(order)
+  return _c("div", [
+    _c(
+      "select",
+      {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.status,
+            expression: "status"
+          }
+        ],
+        on: {
+          change: function($event) {
+            var $$selectedVal = Array.prototype.filter
+              .call($event.target.options, function(o) {
+                return o.selected
+              })
+              .map(function(o) {
+                var val = "_value" in o ? o._value : o.value
+                return val
+              })
+            _vm.status = $event.target.multiple
+              ? $$selectedVal
+              : $$selectedVal[0]
+          }
+        }
+      },
+      [
+        _c("option", { attrs: { value: "" } }, [_vm._v("Все")]),
+        _vm._v(" "),
+        _vm._l(_vm.statuses, function(status) {
+          return _c("option", { domProps: { value: status.id } }, [
+            _vm._v("\n            " + _vm._s(status.name) + "\n        ")
+          ])
+        })
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "table",
+      { staticClass: "table" },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._l(_vm.ordersFiltered, function(order) {
+          return _c("tbody", [
+            _c("tr", [
+              _c("td", [_vm._v(_vm._s(order.name))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(order.phone))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(order.email))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(order.address))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(order.productName))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(order.status))]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.deleteOrder(order)
+                      }
                     }
-                  }
-                },
-                [_vm._v("\n                    Удалить\n                ")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "button",
-                {
-                  on: {
-                    click: function($event) {
-                      _vm.confirm(order)
+                  },
+                  [_vm._v("\n                    Удалить\n                ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.confirm(order)
+                      }
                     }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                    Начать обработку заказа\n                "
-                  )
-                ]
-              )
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Начать обработку заказа\n                "
+                    )
+                  ]
+                )
+              ])
             ])
           ])
-        ])
-      })
-    ],
-    2
-  )
+        })
+      ],
+      2
+    )
+  ])
 }
 var staticRenderFns = [
   function() {

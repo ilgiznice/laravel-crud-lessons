@@ -22,6 +22,7 @@ Route::get('/orders', 'PageController@showOrders')
 Route::group(['prefix' => '/admin'], function() {
     Route::get('/', 'Admin\AdminController@index')->name('admin');
     Route::resource('product', 'ProductController');
+    Route::get('/order/statuses', 'OrderController@getStatuses');
     Route::resource('order', 'OrderController');
     Route::post('/order/{order}/proceed', 'OrderController@proceed');
     Route::get('/product/export/csv', 'Admin\AdminController@exportToCsv')->name('product.export.csv');
@@ -29,5 +30,10 @@ Route::group(['prefix' => '/admin'], function() {
     Route::get('/product/import/csv/form', 'Admin\AdminController@importForm')->name('product.import.csv.form');
     Route::post('/product/import/csv', 'Admin\AdminController@importFromCsv')->name('product.import.csv');
 });
+
+//  /product/ID
+//  /product
+
+//  /product/1/
 
 
